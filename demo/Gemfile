@@ -1,0 +1,7 @@
+source "https://rubygems.org"
+
+gem "jekyll", "~> 4.4"
+
+# Use the local gem
+gem "jekyll-post-card", path: ".."
+

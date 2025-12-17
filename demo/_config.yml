@@ -1,0 +1,14 @@
+title: Jekyll Post Card Demo
+description: Beautiful, responsive post cards for your Jekyll site
+baseurl: ""
+url: ""
+
+plugins:
+  - jekyll-post-card
+
+# Exclude gem development files from the built site
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+

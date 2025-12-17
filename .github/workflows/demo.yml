@@ -17,21 +17,38 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: demo
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+          working-directory: demo
+
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v4
 
-      - name: Create demo directory
+      - name: Copy assets to demo
         run: |
-          mkdir -p _site
-          cp demo.html _site/index.html
-          cp -r assets _site/assets
+          mkdir -p assets
+          cp ../assets/post-card.css assets/
+
+      - name: Build Jekyll site
+        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        env:
+          JEKYLL_ENV: production
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: demo/_site
 
   deploy:
     environment:
@@ -43,4 +60,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
