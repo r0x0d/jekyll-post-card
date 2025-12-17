@@ -1,0 +1,364 @@
+/* Jekyll Post Card - Styles
+ * https://github.com/r0x0d/jekyll-post-card
+ * 
+ * Include this file in your Jekyll site to style post cards.
+ * You can customize the CSS variables to match your theme.
+ * Compatible with Jekyll Chirpy theme.
+ */
+
+:root {
+  /* Light theme (default) */
+  --post-card-bg: #ffffff;
+  --post-card-bg-hover: #fef9f5;
+  --post-card-text: #1b1b1b;
+  --post-card-text-secondary: #5a5a5a;
+  --post-card-text-muted: #868686;
+  --post-card-accent: #d35400;
+  --post-card-border: rgba(0, 0, 0, 0.1);
+  --post-card-shadow: rgba(0, 0, 0, 0.08);
+  --post-card-placeholder-bg: #f5f5f5;
+}
+
+/* Dark theme - Chirpy uses [data-mode="dark"] on html element */
+[data-mode="dark"],
+.dark,
+html[data-mode="dark"] body {
+  --post-card-bg: #1e1e1e;
+  --post-card-bg-hover: #2a2a2a;
+  --post-card-text: #d3d3d3;
+  --post-card-text-secondary: #a0a0a0;
+  --post-card-text-muted: #707070;
+  --post-card-accent: #e94560;
+  --post-card-border: rgba(255, 255, 255, 0.1);
+  --post-card-shadow: rgba(0, 0, 0, 0.3);
+  --post-card-placeholder-bg: #2d2d2d;
+}
+
+/* Auto dark mode via prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-mode="light"]) {
+    --post-card-bg: #1e1e1e;
+    --post-card-bg-hover: #2a2a2a;
+    --post-card-text: #d3d3d3;
+    --post-card-text-secondary: #a0a0a0;
+    --post-card-text-muted: #707070;
+    --post-card-accent: #e94560;
+    --post-card-border: rgba(255, 255, 255, 0.1);
+    --post-card-shadow: rgba(0, 0, 0, 0.3);
+    --post-card-placeholder-bg: #2d2d2d;
+  }
+}
+
+/* Post Card Base Styles */
+.post-card {
+  display: block !important;
+  background: var(--post-card-bg) !important;
+  border: 1px solid var(--post-card-border) !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 20px var(--post-card-shadow) !important;
+  margin: 24px 0 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+  line-height: 1.5 !important;
+  padding: 0 !important;
+}
+
+.post-card:hover {
+  transform: translateY(-4px) !important;
+  background: var(--post-card-bg-hover) !important;
+  border-color: var(--post-card-accent) !important;
+  box-shadow: 0 12px 40px var(--post-card-shadow), 0 0 0 1px var(--post-card-accent) !important;
+}
+
+/* The link wrapper inside the card */
+.post-card .post-card-link,
+.post-card > a.post-card-link {
+  display: block !important;
+  text-decoration: none !important;
+  color: inherit !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.post-card .post-card-link:hover,
+.post-card > a.post-card-link:hover {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+/* Reset Chirpy link styles */
+.post-card .post-card-link::before,
+.post-card .post-card-link::after,
+.post-card a::before,
+.post-card a::after {
+  display: none !important;
+  content: none !important;
+}
+
+.post-card .post-card-inner {
+  display: flex !important;
+  gap: 0 !important;
+  position: relative !important;
+  flex-direction: row !important;
+}
+
+/* Image Container */
+.post-card .post-card-image-container {
+  flex-shrink: 0 !important;
+  width: 200px !important;
+  height: 160px !important;
+  min-height: 160px !important;
+  max-height: 160px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: var(--post-card-placeholder-bg) !important;
+}
+
+/* Handle Chirpy's lightbox wrapper around images */
+.post-card .post-card-image-container a,
+.post-card .post-card-image-container a.popup,
+.post-card .post-card-image-container a.img-link,
+.post-card .post-card-image-container a.shimmer {
+  display: contents !important;
+  pointer-events: none !important;
+}
+
+/* Reset shimmer animation that hides the image */
+.post-card .post-card-image-container a.shimmer::before,
+.post-card .post-card-image-container a.shimmer::after,
+.post-card .post-card-image-container a::before,
+.post-card .post-card-image-container a::after {
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.post-card .post-card-image,
+.post-card .post-card-image-container img,
+.post-card .post-card-image-container a img {
+  width: 200px !important;
+  height: 160px !important;
+  min-width: 200px !important;
+  min-height: 160px !important;
+  object-fit: cover !important;
+  transition: transform 0.4s ease !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.post-card:hover .post-card-image,
+.post-card:hover .post-card-image-container img {
+  transform: scale(1.05) !important;
+}
+
+.post-card .post-card-placeholder {
+  width: 100% !important;
+  height: 100% !important;
+  background: var(--post-card-placeholder-bg) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.post-card .post-card-placeholder svg {
+  width: 48px !important;
+  height: 48px !important;
+  opacity: 0.3 !important;
+}
+
+.post-card .post-card-placeholder svg path {
+  fill: var(--post-card-text-muted) !important;
+}
+
+/* Content */
+.post-card .post-card-content {
+  flex: 1 !important;
+  padding: 20px 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  background: transparent !important;
+}
+
+.post-card .post-card-meta {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-bottom: 10px !important;
+  flex-wrap: wrap !important;
+}
+
+.post-card .post-card-source {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--post-card-accent) !important;
+  background: rgba(211, 84, 0, 0.1) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  margin: 0 !important;
+}
+
+[data-mode="dark"] .post-card .post-card-source,
+.dark .post-card .post-card-source {
+  background: rgba(233, 69, 96, 0.15) !important;
+}
+
+.post-card .post-card-source svg {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.post-card .post-card-source svg path {
+  fill: currentColor !important;
+}
+
+.post-card .post-card-date {
+  font-size: 0.8rem !important;
+  color: var(--post-card-text-muted) !important;
+  margin: 0 !important;
+}
+
+.post-card .post-card-title,
+.post-card h3.post-card-title {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+  margin: 0 0 8px 0 !important;
+  padding: 0 !important;
+  color: var(--post-card-text) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  font-family: Georgia, "Times New Roman", Times, serif !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+.post-card .post-card-excerpt,
+.post-card p.post-card-excerpt {
+  font-size: 0.875rem !important;
+  color: var(--post-card-text-secondary) !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+}
+
+/* Arrow indicator */
+.post-card .post-card-arrow {
+  position: absolute !important;
+  right: 16px !important;
+  top: 50% !important;
+  transform: translateY(-50%) translateX(-8px) !important;
+  opacity: 0 !important;
+  transition: all 0.3s ease !important;
+  color: var(--post-card-accent) !important;
+}
+
+.post-card:hover .post-card-arrow {
+  opacity: 1 !important;
+  transform: translateY(-50%) translateX(0) !important;
+}
+
+.post-card .post-card-arrow svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* Compact variant */
+.post-card.compact .post-card-image-container {
+  width: 120px !important;
+  height: 100px !important;
+}
+
+.post-card.compact .post-card-content {
+  padding: 14px 18px !important;
+}
+
+.post-card.compact .post-card-title {
+  font-size: 1rem !important;
+  -webkit-line-clamp: 1 !important;
+}
+
+.post-card.compact .post-card-excerpt {
+  -webkit-line-clamp: 1 !important;
+}
+
+/* No image variant */
+.post-card.no-image .post-card-image-container {
+  display: none !important;
+}
+
+/* Vertical variant */
+.post-card.vertical .post-card-inner {
+  flex-direction: column !important;
+}
+
+.post-card.vertical .post-card-image-container {
+  width: 100% !important;
+  height: 180px !important;
+}
+
+/* External link indicator */
+.post-card.external .post-card-source::after {
+  content: '↗' !important;
+  margin-left: 4px !important;
+  font-size: 0.9em !important;
+}
+
+/* Error state */
+.post-card.error {
+  border-color: rgba(255, 100, 100, 0.3) !important;
+  background: rgba(255, 100, 100, 0.05) !important;
+  pointer-events: none !important;
+}
+
+.post-card.error .post-card-title {
+  color: #e74c3c !important;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .post-card .post-card-inner {
+    flex-direction: column !important;
+  }
+
+  .post-card .post-card-image-container {
+    width: 100% !important;
+    height: 160px !important;
+  }
+
+  .post-card.compact .post-card-inner {
+    flex-direction: column !important;
+  }
+
+  .post-card.compact .post-card-image-container {
+    width: 100% !important;
+    height: 120px !important;
+  }
+}
+
