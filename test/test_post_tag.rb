@@ -151,6 +151,96 @@ class TestPostTag < Minitest::Test
     assert_includes html, "post-card-placeholder"
   end
 
+  def test_hide_image_option_hides_image_container
+    post = mock_post(
+      url: "/hidden-image-post",
+      title: "Post with Hidden Image",
+      date: Time.new(2024, 1, 1),
+      image: "/images/featured.jpg"
+    )
+    @site.posts.docs << post
+
+    tag = create_tag("/hidden-image-post hide_image:true")
+    html = tag.render(@context)
+
+    assert_includes html, "no-image"
+    refute_includes html, "post-card-image-container"
+    refute_includes html, 'src="/images/featured.jpg"'
+  end
+
+  def test_hide_image_false_shows_image
+    post = mock_post(
+      url: "/visible-image-post",
+      title: "Post with Visible Image",
+      date: Time.new(2024, 1, 1),
+      image: "/images/featured.jpg"
+    )
+    @site.posts.docs << post
+
+    tag = create_tag("/visible-image-post hide_image:false")
+    html = tag.render(@context)
+
+    refute_includes html, "no-image"
+    assert_includes html, "post-card-image-container"
+    assert_includes html, 'src="/images/featured.jpg"'
+  end
+
+  def test_hide_image_accepts_yes_value
+    post = mock_post(
+      url: "/yes-hidden-post",
+      title: "Post Hidden with Yes",
+      date: Time.new(2024, 1, 1),
+      image: "/images/featured.jpg"
+    )
+    @site.posts.docs << post
+
+    tag = create_tag("/yes-hidden-post hide_image:yes")
+    html = tag.render(@context)
+
+    assert_includes html, "no-image"
+    refute_includes html, "post-card-image-container"
+  end
+
+  def test_link_is_overlay_not_wrapper
+    # Verify the link is positioned after content, not wrapping it
+    # This prevents lightbox interference with post card clicks
+    post = mock_post(
+      url: "/overlay-test",
+      title: "Overlay Test Post",
+      date: Time.new(2024, 1, 1),
+      image: "/images/test.jpg"
+    )
+    @site.posts.docs << post
+
+    tag = create_tag("/overlay-test")
+    html = tag.render(@context)
+
+    # Link should come after the arrow div, not before post-card-inner
+    assert_match(/post-card-arrow.*post-card-link/m, html)
+    # Image container should NOT be inside the link
+    refute_match(/<a[^>]*post-card-link[^>]*>.*post-card-image-container/m, html)
+  end
+
+  def test_link_does_not_wrap_image_container
+    # Ensures image is outside link to prevent lightbox conflicts
+    post = mock_post(
+      url: "/link-structure-test",
+      title: "Link Structure Test",
+      date: Time.new(2024, 1, 1),
+      image: "/images/photo.jpg"
+    )
+    @site.posts.docs << post
+
+    tag = create_tag("/link-structure-test")
+    html = tag.render(@context)
+
+    # The image container should appear before the link in the HTML
+    image_pos = html.index("post-card-image-container")
+    link_pos = html.index("post-card-link")
+
+    assert image_pos < link_pos, "Image container should appear before link in HTML"
+  end
+
   private
 
   def create_tag(markup)
